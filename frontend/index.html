@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PersonaLens — Personality Analysis from Text</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="scanline-overlay" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <span class="brand-mark">◎</span>
+    <span class="brand-name">PersonaLens</span>
+  </div>
+  <div class="brand-tag">3-layer NLP pipeline · OCEAN profiling</div>
+</header>
+
+<main>
+
+  <!-- HERO / INPUT -->
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Sample · Read · Reason</p>
+      <h1>Your writing leaves<br><span class="accent">a signature.</span></h1>
+      <p class="hero-sub">
+        Paste a tweet, a chat log, an essay — anything. PersonaLens runs it through
+        three layers of analysis, from classical sentiment scoring to an LLM-reasoned
+        Big Five personality profile.
+      </p>
+    </div>
+
+    <div class="input-card">
+      <div class="input-card-head">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-amber"></span>
+        <span class="dot dot-green"></span>
+        <span class="input-card-title">input.txt</span>
+      </div>
+      <textarea id="text-input" placeholder="Paste text here — the more, the better. Aim for at least a few sentences for a reliable read."></textarea>
+      <div class="input-card-footer">
+        <span id="word-count" class="word-count">0 words</span>
+        <button id="analyze-btn" class="analyze-btn">
+          <span class="btn-label">Run Analysis</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="status-line" class="status-line" hidden>
+      <span class="status-dot"></span>
+      <span id="status-text">Running layer 1 — classical NLP…</span>
+    </div>
+
+    <div id="error-box" class="error-box" hidden></div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="results" hidden>
+
+    <!-- Summary -->
+    <div class="panel summary-panel">
+      <p class="panel-label">01 — Read</p>
+      <p id="summary-text" class="summary-text"></p>
+    </div>
+
+    <!-- OCEAN -->
+    <div class="panel ocean-panel">
+      <p class="panel-label">02 — OCEAN Profile</p>
+      <div id="ocean-grid" class="ocean-grid"></div>
+    </div>
+
+    <div class="results-row">
+      <!-- Communication style -->
+      <div class="panel comm-panel">
+        <p class="panel-label">03 — Communication Style</p>
+        <div class="comm-styles" id="comm-styles"></div>
+        <p id="comm-desc" class="comm-desc"></p>
+      </div>
+
+      <!-- Behavioral insights -->
+      <div class="panel behavior-panel">
+        <p class="panel-label">04 — Behavioral Insights</p>
+        <dl id="behavior-list" class="behavior-list"></dl>
+      </div>
+    </div>
+
+    <div class="results-row">
+      <!-- Strengths / blind spots -->
+      <div class="panel sb-panel">
+        <p class="panel-label">05 — Strengths &amp; Blind Spots</p>
+        <div class="sb-grid">
+          <div>
+            <h3 class="sb-heading sb-heading-strength">Strengths</h3>
+            <ul id="strengths-list" class="sb-list"></ul>
+          </div>
+          <div>
+            <h3 class="sb-heading sb-heading-blind">Blind Spots</h3>
+            <ul id="blindspots-list" class="sb-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career fit -->
+      <div class="panel career-panel">
+        <p class="panel-label">06 — Career Fit</p>
+        <div id="career-tags" class="career-tags"></div>
+      </div>
+    </div>
+
+    <!-- Raw signals -->
+    <div class="panel signals-panel">
+      <button id="toggle-signals" class="toggle-signals">
+        <span class="panel-label" style="margin:0;">07 — Raw NLP Signals</span>
+        <span class="toggle-icon">+</span>
+      </button>
+      <div id="signals-body" class="signals-body" hidden>
+        <div class="signals-grid">
+          <div class="signal-block">
+            <h4>Sentiment (VADER)</h4>
+            <pre id="signal-vader"></pre>
+          </div>
+          <div class="signal-block">
+            <h4>Sentiment (RoBERTa)</h4>
+            <pre id="signal-roberta"></pre>
+          </div>
+          <div class="signal-block">
+            <h4>Emotions</h4>
+            <pre id="signal-emotion"></pre>
+          </div>
+          <div class="signal-block">
+            <h4>Linguistic Features</h4>
+            <pre id="signal-linguistic"></pre>
+          </div>
+          <div class="signal-block signal-block-wide">
+            <h4>Top Keywords</h4>
+            <div id="signal-keywords" class="keyword-tags"></div>
+          </div>
+        </div>
+        <p class="timing-note" id="timing-note"></p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <span>PersonaLens — Python · FastAPI · HuggingFace · Groq Llama 3.3</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
