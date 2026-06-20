@@ -2,6 +2,8 @@
 
 **AI-Powered Personality Analysis from Text**
 
+PersonaLens is a collaborative NLP & LLM-based personality analysis system developed by a team of three members: Mansi Kharwar, Nishtha, and Pratibha.
+
 Paste any text — tweets, chats, essays — and get a deep personality profile powered by a 3-layer NLP pipeline.
 
 `Python` `FastAPI` `HuggingFace` `Groq`
